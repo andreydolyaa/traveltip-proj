@@ -1,0 +1,13 @@
+*{
+    box-sizing: border-box;
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.weather-container{
+    border:1px solid black;
+    width:400px;
+    height:400px;
+    margin:auto;
+    text-align: center;
+}
