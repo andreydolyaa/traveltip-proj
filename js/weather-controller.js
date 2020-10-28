@@ -1,14 +1,17 @@
 'use strict';
 
 import { weatherService } from '/js/weather-service.js';
+import {mapControler} from '/js/map-controller.js';
 
-// onInit();
+onInit();
 
 function onInit() {
-    var weather = weatherService.loadWeather('tel-aviv')
-    weather.then(res => {
-        return renderWeather(res);
-    });
+    var city = onGetCity();
+    // var weather = weatherService.loadWeather(`${city}`)
+    // weather.then(res => {
+    //     // showLocationFromInput(res)
+    //     return renderWeather(res);
+    // });
 }
 
 
@@ -25,6 +28,17 @@ function renderWeather(res) {
 }
 
 
-function getLocation(event){
-    
+
+function onGetCity() {
+    var input = document.querySelector('.input');
+    var btn = document.querySelector('.input-location button');
+    btn.addEventListener('click', function () {
+        var weather = weatherService.loadWeather(`${input.value}`)
+        weather.then(res => {
+            mapControler.showLocationFromInput(res);
+            return renderWeather(res);
+        });
+    })
 }
+
+
