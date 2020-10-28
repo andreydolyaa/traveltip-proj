@@ -62,8 +62,8 @@ export function showLocationFromInput(res){
     console.log('event showLocation', res); 
     //console.log(event.coords.latitude); 
     //console.log(event.coords.longitude);
-    var lat = res.coord.lon;
-    var lng = res.coord.lat; 
+    var lat = res.coord.lat;
+    var lng = res.coord.lon; 
     panTo(lat, lng);
     placeMarkerMyLocation(lat, lng);
 } 
