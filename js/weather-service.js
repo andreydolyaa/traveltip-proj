@@ -13,6 +13,7 @@ var gWeather = [];
 
 
 function loadWeather(cityName) {
+    
     // var weather = storage.loadFromStorage(STORAGE_KEY);
     // if (weather) {
     //     gWeather = weather;

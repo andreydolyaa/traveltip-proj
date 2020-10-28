@@ -7,17 +7,12 @@ onInit();
 
 function onInit() {
     onGetCity();
-    // var weather = weatherService.loadWeather(`${city}`)
-    // weather.then(res => {
-    //     // showLocationFromInput(res)
-    //     return renderWeather(res);
-    // });
 }
 
 
 
 function renderWeather(res) {
-    document.querySelector('.loading').style.display = 'none';
+    // document.querySelector('.loading').style.display = 'none';
     var elWeather = document.querySelector('.weather-container');
     elWeather.innerHTML = `
     <div><img src="http://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png"></div>
