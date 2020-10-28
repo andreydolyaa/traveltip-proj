@@ -49,6 +49,5 @@ export const weatherService = {
     loadWeather,
     loadCoords
 }
-import {weatherService} from '/js/weather-service.js';
 
 // 0581774118db611eb667beb10ab2fcdd
