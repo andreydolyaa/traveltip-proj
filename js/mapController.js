@@ -44,30 +44,34 @@ function placeMarker(mapsMouseEvent) {
      var lng = posCoords.lng;
      console.log('place marker' ,lat ,lng)
      var marker = new google.maps.Marker({
-         position: { lat:lat , lng:lng }, 
-         map:gMap,
-         title: 'Hello World!',
+            id:makeId(),
+            name:'name',
+            lat:lat,
+            lng:lng,
+            weather:'weather',
+            createdAt:'createdAt',
+            updatedAt:'updatedAt'
          });
          //console.log(marker)   
 
      marker.addListener("click", markerClick);
      console.log(' marker' ,marker)
      gLocations.push(marker)
-     createLocation(marker,lat,lng)
+     //createLocation(marker,lat,lng)
      //saveLocations()
 }
 
 function createLocation(marker,lat,lng){
     console.log('place marker' ,marker)
-    console.log('place marker' ,lat,lng)
+    console.log('place marker', name,lat,lng,weather,createdAt, updatedAt)
     var location = {
-        id,
+        id:makeId(),
         name,
-        lat,
-        lng,
-        weather, 
+        lat:lat,
+        lng:lng,
+        weather,
         createdAt,
-        updatedAt
+        updatedAt,
 
     }
 }
