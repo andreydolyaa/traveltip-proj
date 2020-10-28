@@ -33,6 +33,21 @@ function renderLocations(){
     
 }
 
+function setMarkers(){
+    gLocations.forEach((position) =>{
+        console.log('value',position)
+        var lat = position.lat;
+        var lng = position.lng;
+        var marker;
+        var map = gMap;
+        marker = new google.maps.Marker({
+            position: { lat, lng },
+            map,
+            title: 'Hello World!',
+        });
+    })
+}
+
 document.querySelector('.btn').addEventListener('click', (ev) => {
     console.log('Aha!', ev.target);
     navigator.geolocation.getCurrentPosition(showLocation, handleLocationError);
@@ -105,6 +120,9 @@ window.onload = () => {
 
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
             addMapEventOnClick()
+            renderLocations()
+            setMarkers()
+            addEventToLocations()
         })
         .catch(console.log('INIT MAP ERROR'));
 
@@ -117,10 +135,6 @@ window.onload = () => {
             console.log('err!!!', err);
         })
 
-
-
-    renderLocations()
-    addEventToLocations()
 }
 
 function addMapEventOnClick(){
