@@ -33,38 +33,42 @@ function renderLocations(){
     
 }
 
-function addEventToMylocation(){
-    var el = document.querySelector('.my-location');
-    console.log(el)
-    el.addEventListener("click", event => {
-        mylocation(event)
-    });
-}
-
 document.querySelector('.btn').addEventListener('click', (ev) => {
     console.log('Aha!', ev.target);
-    panTo(35.6895, 139.6917);
-    mylocation(ev)
+    navigator.geolocation.getCurrentPosition(showLocation, handleLocationError);
+    console.log(navigator)
+
+    function showLocation(event){
+        console.log(event); 
+        console.log(event.coords.latitude); 
+        console.log(event.coords.longitude);
+        var lat = event.coords.latitude;
+        var lng = event.coords.longitude; 
+        panTo(lat, lng);
+        placeMarkerMyLocation(lat, lng);
+    }  
 })
 
-function mylocation(ev){
-    console.log(ev)
-    console.log('my location ')
-    
-    getPosition()
-        .then(pos => {
-            console.log('User position is:', pos.coords,);
-            console.log('User position is:', pos.coords.latitude,);
-            var pos = {
-                lat:pos.coords.latitude,
-                lng:pos.coords.longitude,
-              }
+function placeMarkerMyLocation(mylat, mylng) { 
+    console.log('place marker' ,mylat, mylng)
+     var lat = mylat;
+     var lng = mylng;
 
-            gMap.setCenter(pos);
-        })
-        .catch(err => {
-            console.log('err!!!', err);
-        })
+     console.log('place marker' ,lat,lng )
+     var marker = new google.maps.Marker({
+            position: { lat:lat, lng:lng },
+            map: gMap,
+         });
+         //console.log(marker)   
+     marker.addListener("click", markerClick);
+
+     var id  = makeID.makeId(4);
+     var createMarker = _createMarker(lat,lng,id)
+     //console.log(' marker' ,marker)
+     gLocations.push(createMarker)
+     console.log('gLocations' , gLocations)  
+     saveLocations()
+     renderLocations();
 }
 
 function addEventToLocations(){
@@ -117,7 +121,6 @@ window.onload = () => {
 
     renderLocations()
     addEventToLocations()
-    addEventToMylocation()
 }
 
 function addMapEventOnClick(){
