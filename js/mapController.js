@@ -34,18 +34,37 @@ function renderLocations(){
 }
 
 function addEventToMylocation(){
-    var el = document.querySelectorAll('.my-location');
-    console.log(elsLocation)
-
+    var el = document.querySelector('.my-location');
+    console.log(el)
     el.addEventListener("click", event => {
         mylocation(event)
     });
-
 }
+
+document.querySelector('.btn').addEventListener('click', (ev) => {
+    console.log('Aha!', ev.target);
+    panTo(35.6895, 139.6917);
+    mylocation(ev)
+})
 
 function mylocation(ev){
     console.log(ev)
-    getUserPosition();
+    console.log('my location ')
+    
+    getPosition()
+        .then(pos => {
+            console.log('User position is:', pos.coords,);
+            console.log('User position is:', pos.coords.latitude,);
+            var pos = {
+                lat:pos.coords.latitude,
+                lng:pos.coords.longitude,
+              }
+
+            gMap.setCenter(pos);
+        })
+        .catch(err => {
+            console.log('err!!!', err);
+        })
 }
 
 function addEventToLocations(){
@@ -57,6 +76,7 @@ function addEventToLocations(){
         });
     });
 }
+
 
 
 function selectLocation(event){
@@ -151,10 +171,7 @@ function markerClick(event){
     //// var location = []   
 }
 
-document.querySelector('.btn').addEventListener('click', (ev) => {
-    console.log('Aha!', ev.target);
-    panTo(35.6895, 139.6917);
-})
+
 
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap');
@@ -184,7 +201,7 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng);
 }
 
-function getMyPosition() {
+function getPosition() {
     console.log('Getting Pos');
 
     return new Promise((resolve, reject) => {
