@@ -176,7 +176,7 @@ function placeMarker(mapsMouseEvent) {
 
      var id  = makeID.makeId(4);
      var createMarker = _createMarker(lat,lng,id)
-     //console.log(' marker' ,marker)
+     console.log(' marker' ,marker)
      gLocations.push(createMarker)
      console.log('gLocations' , gLocations)  
      saveLocations()
