@@ -50,5 +50,4 @@ export const weatherService = {
     loadCoords
 }
 
-
 // 0581774118db611eb667beb10ab2fcdd

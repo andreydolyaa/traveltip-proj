@@ -1,7 +1,7 @@
 'use strict';
 console.log('util ')
 
-export const makeID = {makeId: makeId}
+export const UTIL = {makeId , getDateAndTime}
 
 function getFileName(fileNameFull) {
         var fileNameSplit = fileNameFull.split(".");

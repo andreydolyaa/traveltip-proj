@@ -1,34 +1,40 @@
 import { mapService } from '/js/mapService.js'
-import { makeID } from '/js/util-service.js'
+import { UTIL } from '/js/util-service.js'
 import { storage } from '/js/storage-service.js'
+import {weatherService} from '/js/weather-service.js';
 
 export const mapControler = {showLocationFromInput}
 
 
 console.log('Main!');
 var gMap;
-var gLocations = [];
+var gLocations;
 var DATA_KEY_LOCATIONS ='dbLocations' 
 
 
 function renderLocations(){
     var locations = storage.loadFromStorage(DATA_KEY_LOCATIONS)
+    console.log('render gLocations',locations)
     var el = document.querySelector('.locations')
-    console.log('render gLocations' ,locations)
+    //console.log('render gLocations' ,locations)
     if (!locations || !locations.length) {  
-        //console.log('no locations' ,gCurrTheme)     
+        //console.log('no locations')     
         el.innerHTML = 'no locations'
         return
         
     }
-
+    //gLocations = []
     gLocations = locations;
-    console.log('render gLocations',gLocations)  
-    var strHTML = gLocations.map((locationItem,index, array) => {        
+    //console.log('render gLocations',gLocations)  
+    var strHTML = gLocations.map((locationItem,index, array) => { 
+        console.log('locationItem',locationItem)       
        return `<div class="locationContainer"><div class="location" data-locid="${index}">
-       <span class="colorIcon"></span>
-       ${locationItem.lat}
-       ${locationItem.lng}
+       <span class="item">${locationItem.lat}</span>
+       <span class="item">${locationItem.lng}</span>
+       <span class="item">${locationItem.name}</span>
+       <span class="item">${locationItem.createdAt}</span>
+       <button data-locid="${index}" class="deleteLocation"> delete </button>
+      
        </div></div>`;
       }); 
     //console.log('strHTML' ,strHTML);
@@ -37,6 +43,8 @@ function renderLocations(){
 }
 
 function setMarkers(){
+    var locations = storage.loadFromStorage(DATA_KEY_LOCATIONS)
+    if (!locations || !locations.length) return;
     gLocations.forEach((position) =>{
         console.log('value',position)
         var lat = position.lat;
@@ -91,12 +99,17 @@ function placeMarkerMyLocation(mylat, mylng) {
          });
          //console.log(marker)   
      marker.addListener("click", markerClick);
-
-     var id  = makeID.makeId(4);
-     var createMarker = _createMarker(lat,lng,id)
+     
+     var id  = UTIL.makeId(4);
+     //var markerDetails = 
+    
+        //console.log('markerDetails User position is:',  markerDetails);  
+     var createMarker = _createMarker(lat,lng,id,marker)
+     
      //console.log(' marker' ,marker)
+     if (!gLocations || !gLocations.length) gLocations = [];
      gLocations.push(createMarker)
-     console.log('gLocations' , gLocations)  
+  
      saveLocations()
      renderLocations();
 }
@@ -111,20 +124,42 @@ function addEventToLocations(){
     });
 }
 
-
-
 function selectLocation(event){
-    console.log(event,gLocations ,gLocations[0], gLocations[0].lat , gLocations[0].lng)
+    //console.log(event,gLocations ,gLocations[0], gLocations[0].lat , gLocations[0].lng)
     var index = Number(event.target.dataset.locid)
-    console.log(typeof index ,index)
+    //console.log(typeof index ,index)
 
     var pos = {
       lat:gLocations[index].lat,
       lng:gLocations[index].lng,
     }
-    console.log(pos)
+    //console.log(pos)
     gMap.setCenter(pos);
 }
+
+function addEventToDeleteLocation(){
+    var elsLocation = document.querySelectorAll('.deleteLocation');
+    console.log(elsLocation)
+    elsLocation.forEach(elLocation =>{
+        elLocation.addEventListener("click", event => {
+            console.log('elsLocation',elsLocation)
+            deleteLocation(event)
+        });
+    });
+}
+
+function deleteLocation(event){
+    console.log(event)
+    var index = Number(event.target.dataset.locid)
+    //console.log(typeof index ,index)
+
+    gLocations.splice(index,1);
+    saveLocations();   
+    renderLocations();
+    //console.log(pos)
+
+}
+
 
 mapService.getLocs()
     .then(locs => console.log('locs', locs))
@@ -132,12 +167,12 @@ mapService.getLocs()
 window.onload = () => {
     initMap()
         .then(() => {
-
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
             addMapEventOnClick()
             renderLocations()
             setMarkers()
             addEventToLocations()
+            addEventToDeleteLocation()
         })
         .catch(console.log('INIT MAP ERROR'));
 
@@ -162,11 +197,11 @@ function addMapEventOnClick(){
 
 function placeMarker(mapsMouseEvent) { 
     var posCoords = mapsMouseEvent.latLng.toJSON()
-    console.log('place marker' ,posCoords)
+    //console.log('place marker' ,posCoords)
      var lat = posCoords.lat;
      var lng = posCoords.lng;
 
-     console.log('place marker' ,lat,lng )
+     //console.log('place marker' ,lat,lng )
      var marker = new google.maps.Marker({
             position: { lat:lat, lng:lng },
             map: gMap,
@@ -174,23 +209,33 @@ function placeMarker(mapsMouseEvent) {
          //console.log(marker)   
      marker.addListener("click", markerClick);
 
-     var id  = makeID.makeId(4);
-     var createMarker = _createMarker(lat,lng,id)
-     console.log(' marker' ,marker)
-     gLocations.push(createMarker)
-     console.log('gLocations' , gLocations)  
-     saveLocations()
-     renderLocations();
+     var createMarker;
+     weatherService.loadCoords(lat, lng).then(res => {
+        var id  = UTIL.makeId(4);
+        var name = res.name + res.sys.country;
+        var weather = res.weather
+        //console.log(' marker' ,country ,name, weather)
+        createMarker = _createMarker(lat,lng,id,name,weather)
+        console.log('res',res)
+        console.log('createMarker',createMarker)
+        if (!gLocations || !gLocations.length) gLocations = []
+        gLocations.push(createMarker)
+        console.log('gLocations' , gLocations)
+        saveLocations()
+        renderLocations();
+    })  
+
 }
 
-function _createMarker(lat,lng,id){
+function _createMarker(lat,lng,id,name,weather){
+        console.log(lat,lng,id,name,weather)
         var marker ={
             lat:lat,
             lng:lng,
             id:id,
-            name:'name',
-            weather:'weather',
-            createdAt:'createdAt',
+            name:name,
+            weather:weather,
+            createdAt:UTIL.getDateAndTime(),
             updatedAt:'updatedAt',
         }
         return marker;
@@ -263,7 +308,7 @@ function getUserPosition() {
 
     // One shot position getting or continus watch
     navigator.geolocation.getCurrentPosition(showLocation, handleLocationError);
-    // navigator.geolocation.watchPosition(showLocation, handleLocationError);
+    // navigator.geolocation.watchPosdeleteLocationition(showLocation, handleLocationError);
 }
 
 function handleLocationError(error) {
@@ -288,6 +333,8 @@ function handleLocationError(error) {
 
 function saveLocations(){
     storage.saveToStorage(DATA_KEY_LOCATIONS, gLocations);
+    console.log('save',gLocations)
+    window.locations = gLocations; //debug
 }
 
 
