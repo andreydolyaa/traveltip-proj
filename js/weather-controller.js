@@ -2,7 +2,7 @@
 
 import { weatherService } from '/js/weather-service.js';
 
-onInit();
+// onInit();
 
 function onInit() {
     var weather = weatherService.loadWeather('tel-aviv')
@@ -13,7 +13,6 @@ function onInit() {
 
 
 function renderWeather(res) {
-    // var elIcon = `http://openweathermap.org/img/wn/10d@2x.png`
     document.querySelector('.loading').style.display = 'none';
     var elWeather = document.querySelector('.weather-container');
     elWeather.innerHTML = `
