@@ -1,4 +1,4 @@
-import { mapService } from './services/mapService.js'
+import { mapService } from '/js/mapService.js'
 
 var gMap;
 console.log('Main!');
@@ -22,12 +22,20 @@ window.onload = () => {
         .catch(err => {
             console.log('err!!!', err);
         })
+
+        gMap.addListener("click", (mapsMouseEvent) => {
+            // Close the current InfoWindow.
+            
+            console.log('click')
+         });
+
 }
 
 document.querySelector('.btn').addEventListener('click', (ev) => {
     console.log('Aha!', ev.target);
     panTo(35.6895, 139.6917);
 })
+
 
 
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
@@ -69,7 +77,7 @@ function getPosition() {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = ''; //TODO: Enter your API Key
+    const API_KEY = 'AIzaSyAn7DCe3gfYFYp76X31Hewxr5GPTl55Q48'; //TODO: Enter your API Key
     var elGoogleApi = document.createElement('script');
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
     elGoogleApi.async = true;
