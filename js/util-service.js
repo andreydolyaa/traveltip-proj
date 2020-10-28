@@ -1,5 +1,7 @@
 'use strict';
-console.log('util')
+console.log('util ')
+
+export const makeID = {makeId: makeId}
 
 function getFileName(fileNameFull) {
         var fileNameSplit = fileNameFull.split(".");
@@ -18,7 +20,6 @@ function stringSplit(content){
     strings.push(s1, s2)
     return strings
 }
-
 
 function makeId(length = 4) {
     var txt = '';

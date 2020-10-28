@@ -1,4 +1,6 @@
 import { mapService } from '/js/mapService.js'
+import { makeID } from '/js/util-service.js'
+
 
 console.log('Main!');
 var gMap;
@@ -29,10 +31,8 @@ window.onload = () => {
 
 function addMapEventOnClick(){
     gMap.addListener("click", (mapsMouseEvent) => {
-        // Close the current InfoWindow.
-        
-        console.log('click',mapsMouseEvent)
-        
+        // Close the current InfoWindow.       
+        console.log('click',mapsMouseEvent)      
         placeMarker(mapsMouseEvent)
     });
 }
@@ -42,54 +42,32 @@ function placeMarker(mapsMouseEvent) {
     console.log('place marker' ,posCoords)
      var lat = posCoords.lat;
      var lng = posCoords.lng;
-     console.log('place marker' ,lat ,lng)
+     var id  = makeID.makeId(4);
+     console.log('place marker' ,lat,lng ,id, )
      var marker = new google.maps.Marker({
-            id:makeId(),
+            position: { lat, lng },
+            map: gMap,
+            id:id,
             name:'name',
-            lat:lat,
-            lng:lng,
             weather:'weather',
             createdAt:'createdAt',
-            updatedAt:'updatedAt'
+            updatedAt:'updatedAt',
          });
          //console.log(marker)   
-
      marker.addListener("click", markerClick);
-     console.log(' marker' ,marker)
-     gLocations.push(marker)
+     //console.log(' marker' ,marker)
+     //gLocations.push(marker)
      //createLocation(marker,lat,lng)
      //saveLocations()
 }
 
-function createLocation(marker,lat,lng){
-    console.log('place marker' ,marker)
-    console.log('place marker', name,lat,lng,weather,createdAt, updatedAt)
-    var location = {
-        id:makeId(),
-        name,
-        lat:lat,
-        lng:lng,
-        weather,
-        createdAt,
-        updatedAt,
 
-    }
-}
 
 function markerClick(event){
     console.log(event)
     //var posCoords = event.latLng.toJSON()
     //console.log(posCoords)
-    //// var location = []
-    //if (confirm('save location?')){
-    //    console.log('map' , posCoords)
-    //    var lat = posCoords.lat;
-    //    var lng = posCoords.lng;
-    //    let location={lat,lng}
-//
-    //    updateLocations(location)
-    //    //renderLocations()
-    //}             
+    //// var location = []   
 }
 
 document.querySelector('.btn').addEventListener('click', (ev) => {
