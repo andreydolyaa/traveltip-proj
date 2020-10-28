@@ -1,7 +1,9 @@
 import { mapService } from '/js/mapService.js'
 
-var gMap;
 console.log('Main!');
+var gMap;
+var gLocations =[]
+var DATA_KEY_LOCATIONS ='dbLocations' 
 
 mapService.getLocs()
     .then(locs => console.log('locs', locs))
@@ -23,9 +25,6 @@ window.onload = () => {
         .catch(err => {
             console.log('err!!!', err);
         })
-
-
-
 }
 
 function addMapEventOnClick(){
@@ -52,7 +51,41 @@ function placeMarker(mapsMouseEvent) {
          //console.log(marker)   
 
      marker.addListener("click", markerClick);
+     console.log(' marker' ,marker)
+     gLocations.push(marker)
+     createLocation(marker,lat,lng)
+     //saveLocations()
+}
 
+function createLocation(marker,lat,lng){
+    console.log('place marker' ,marker)
+    console.log('place marker' ,lat,lng)
+    var location = {
+        id,
+        name,
+        lat,
+        lng,
+        weather, 
+        createdAt,
+        updatedAt
+
+    }
+}
+
+function markerClick(event){
+    console.log(event)
+    //var posCoords = event.latLng.toJSON()
+    //console.log(posCoords)
+    //// var location = []
+    //if (confirm('save location?')){
+    //    console.log('map' , posCoords)
+    //    var lat = posCoords.lat;
+    //    var lng = posCoords.lng;
+    //    let location={lat,lng}
+//
+    //    updateLocations(location)
+    //    //renderLocations()
+    //}             
 }
 
 document.querySelector('.btn').addEventListener('click', (ev) => {
@@ -112,6 +145,10 @@ function _connectGoogleApi() {
         elGoogleApi.onload = resolve;
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
+}
+
+function saveLocations(){
+    saveToStorage(DATA_KEY_LOCATIONS, gLocations);
 }
 
 
