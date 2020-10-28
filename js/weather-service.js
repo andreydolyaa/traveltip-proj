@@ -8,19 +8,19 @@ var gWeather = [];
 
 
 
-console.log(gWeather);
-console.log(loadWeather('tel-aviv'));
+// console.log(gWeather);
+// console.log(loadWeather('tel-aviv'));
 
 
 function loadWeather(cityName) {
-    var weather = storage.loadFromStorage(STORAGE_KEY);
-    if (weather) {
-        gWeather = weather;
-        _saveToStorage();
-        console.log('loading weather from local storage');
-        return gWeather;
-    }
-    return axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=0581774118db611eb667beb10ab2fcdd`)
+    // var weather = storage.loadFromStorage(STORAGE_KEY);
+    // if (weather) {
+    //     gWeather = weather;
+    //     _saveToStorage();
+    //     console.log('loading weather from local storage');
+    //     return gWeather;
+    // }
+    return axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=0581774118db611eb667beb10ab2fcdd`)
         .then(res => {
             gWeather = res.data;
             _saveToStorage();
