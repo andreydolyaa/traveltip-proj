@@ -1,6 +1,7 @@
 import { mapService } from '/js/mapService.js'
 import { makeID } from '/js/util-service.js'
 import { storage } from '/js/storage-service.js'
+import {weatherService} from '/js/weather-service.js';
 
 export const mapControler = {showLocationFromInput}
 
@@ -91,9 +92,13 @@ function placeMarkerMyLocation(mylat, mylng) {
          });
          //console.log(marker)   
      marker.addListener("click", markerClick);
-
+     
      var id  = makeID.makeId(4);
-     var createMarker = _createMarker(lat,lng,id)
+     var markerDetails = weatherService.loadCoords(lat, lon).then
+    
+      
+     var createMarker = _createMarker(lat,lng,id,marker)
+     
      //console.log(' marker' ,marker)
      gLocations.push(createMarker)
      console.log('gLocations' , gLocations)  
@@ -176,7 +181,7 @@ function placeMarker(mapsMouseEvent) {
 
      var id  = makeID.makeId(4);
      var createMarker = _createMarker(lat,lng,id)
-     //console.log(' marker' ,marker)
+     console.log(' marker' ,marker)
      gLocations.push(createMarker)
      console.log('gLocations' , gLocations)  
      saveLocations()
