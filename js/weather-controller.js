@@ -12,6 +12,7 @@ function onInit() {
 }
 
 
+
 function renderWeather(res) {
     document.querySelector('.loading').style.display = 'none';
     var elWeather = document.querySelector('.weather-container');
@@ -21,4 +22,9 @@ function renderWeather(res) {
     <h1><span>${res.main.temp.toFixed(1)}c</span></h1>
     <p>temperature from ${res.main.temp_min} to ${res.main.temp_max}c, wind ${res.wind.speed} m/s </p> 
     `;
+}
+
+
+function getLocation(event){
+    
 }
