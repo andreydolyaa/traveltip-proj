@@ -3,7 +3,7 @@
 import { storage } from '/js/storage-service.js';
 
 const STORAGE_KEY = 'weatherDB';
-var gWeather = [];
+// var gWeather = [];
 
 
 
@@ -23,11 +23,8 @@ function loadWeather(cityName) {
     // }
     return axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=0581774118db611eb667beb10ab2fcdd`)
         .then(res => {
-            gWeather = res.data;
-            _saveToStorage();
-            console.log('loading weather from server');
-            console.log('res.data: ', res.data);
-            console.log('gWeather', gWeather);
+            // gWeather = res.data;
+            // _saveToStorage();
             return res.data;
         })
 }
