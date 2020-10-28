@@ -2,6 +2,9 @@ import { mapService } from '/js/mapService.js'
 import { makeID } from '/js/util-service.js'
 import { storage } from '/js/storage-service.js'
 
+export const mapControler = {showLocationFromInput}
+
+
 console.log('Main!');
 var gMap;
 var gLocations = [];
@@ -53,16 +56,28 @@ document.querySelector('.btn').addEventListener('click', (ev) => {
     navigator.geolocation.getCurrentPosition(showLocation, handleLocationError);
     console.log(navigator)
 
-    function showLocation(event){
-        console.log(event); 
-        console.log(event.coords.latitude); 
-        console.log(event.coords.longitude);
-        var lat = event.coords.latitude;
-        var lng = event.coords.longitude; 
-        panTo(lat, lng);
-        placeMarkerMyLocation(lat, lng);
-    }  
 })
+
+export function showLocationFromInput(res){
+    //console.log('event showLocation', event); 
+    //console.log(event.coords.latitude); 
+    //console.log(event.coords.longitude);
+    var lat = res.coords.lon;
+    var lng = res.coords.lat; 
+    panTo(lat, lng);
+    placeMarkerMyLocation(lat, lng);
+} 
+
+function showLocation(event){
+    //console.log('event showLocation', event); 
+    //console.log(event.coords.latitude); 
+    //console.log(event.coords.longitude);
+    var lat = event.coords.latitude;
+    var lng = event.coords.longitude; 
+    panTo(lat, lng);
+    placeMarkerMyLocation(lat, lng);
+} 
+
 
 function placeMarkerMyLocation(mylat, mylng) { 
     console.log('place marker' ,mylat, mylng)
