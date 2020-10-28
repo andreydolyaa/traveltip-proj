@@ -5,29 +5,53 @@ console.log('Main!');
 
 mapService.getLocs()
     .then(locs => console.log('locs', locs))
-//add
+
 window.onload = () => {
     initMap()
         .then(() => {
 
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
+            addMapEventOnClick()
         })
         .catch(console.log('INIT MAP ERROR'));
 
     getPosition()
         .then(pos => {
 
-            console.log('User position is:', pos.coords);
+        console.log('User position is:', pos.coords);
         })
         .catch(err => {
             console.log('err!!!', err);
         })
 
-        gMap.addListener("click", (mapsMouseEvent) => {
-            // Close the current InfoWindow.
-            
-            console.log('click')
+
+
+}
+
+function addMapEventOnClick(){
+    gMap.addListener("click", (mapsMouseEvent) => {
+        // Close the current InfoWindow.
+        
+        console.log('click',mapsMouseEvent)
+        
+        placeMarker(mapsMouseEvent)
+    });
+}
+
+function placeMarker(mapsMouseEvent) { 
+    var posCoords = mapsMouseEvent.latLng.toJSON()
+    console.log('place marker' ,posCoords)
+     var lat = posCoords.lat;
+     var lng = posCoords.lng;
+     console.log('place marker' ,lat ,lng)
+     var marker = new google.maps.Marker({
+         position: { lat:lat , lng:lng }, 
+         map:gMap,
+         title: 'Hello World!',
          });
+         //console.log(marker)   
+
+     marker.addListener("click", markerClick);
 
 }
 
@@ -73,6 +97,7 @@ function getPosition() {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
+
 
 
 function _connectGoogleApi() {
