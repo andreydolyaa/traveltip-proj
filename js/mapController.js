@@ -59,7 +59,7 @@ document.querySelector('.btn').addEventListener('click', (ev) => {
 })
 
 export function showLocationFromInput(res){
-    //console.log('event showLocation', event); 
+    console.log('event showLocation', res); 
     //console.log(event.coords.latitude); 
     //console.log(event.coords.longitude);
     var lat = res.coords.lon;
