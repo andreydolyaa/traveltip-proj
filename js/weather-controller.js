@@ -1,12 +1,12 @@
 'use strict';
 
 import { weatherService } from '/js/weather-service.js';
-import {mapControler} from '/js/map-controller.js';
+import {mapControler} from '/js/mapController.js';
 
 onInit();
 
 function onInit() {
-    var city = onGetCity();
+    onGetCity();
     // var weather = weatherService.loadWeather(`${city}`)
     // weather.then(res => {
     //     // showLocationFromInput(res)
