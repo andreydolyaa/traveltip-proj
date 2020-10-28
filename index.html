@@ -9,19 +9,52 @@
 </head>
 
 <body>
-    <div id="map" style="width: 100%; height: 400px;"></div>
-    <button class="btn">Click Me</button>
-    <div class="input-location">
+    <header class="max-width">
+        <nav>
+            <h1>TravelTip</h1>
+        </nav>
+    </header>
+    <div class="container max-width">
+
+        
+        <div class="input-location">
+            <div class="search">
             <input type="text" class="input">
-            <button>OK</button>
+            <button>GO</button>
+            </div>
+            <button class="btn">My Location</button>
+        </div>
+
+        <div class="map-weather">
+    <div class="map">
+        <div id="map"></div>
     </div>
+
+
     <div class="weather-container">
         <h1>Weather Today</h1>
         <!-- <p class="loading">Loading...</p> -->
     </div>
-    <h1>Locations</h1>
-    <div class="locations">
+        </div>
+
+
+
+        
+        
+
+
+        <div class="locations-container max-width">
+            <h1>Last Locations</h1>
+        <div class="locations">
+            
+        </div>
+        </div>
+
+
     </div>
+
+
+
 
     <script src="lib/axios.js"></script>
     <script type="module" src="js/util-service.js"></script>

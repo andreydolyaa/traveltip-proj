@@ -1,14 +1,32 @@
 *{
     box-sizing: border-box;
-    margin:0;
     font-family:Arial, Helvetica, sans-serif;
+    margin:0;
+}
+
+.max-width{
+    max-width: 1200px;
+}
+.container{
+
+    display:flex;
+    flex-direction: column;
+    margin:auto;
+}
+
+/**** NAV ***/
+header{
+    display: flex;
+    align-items: center;
+    height:60px;
+    padding:1rem;
+    margin:auto;
 }
 /************************** WEATHER CONTAINER **********************/
 .weather-container{
     border:1px solid rgb(232, 232, 232);
-    width:600px;
-    height:400px;
-    margin:auto;
+    width:590px;
+    height:500px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -39,3 +57,71 @@
     font-size:2.5rem;
 }
 /************************************************************************/
+/************ MAP ****************/
+.map-weather{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin:0
+}
+
+#map{
+    width:590px;
+    height:500px;
+}
+
+/**************** INPUT LOCATION DIV ********************************/
+.input-location{
+    padding:2rem;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.input-location .search{
+    margin-right:.3rem;
+}
+.input-location .input{
+    height:2rem;
+    width:250px;
+    border-radius:5px;
+    border:1px solid gray;
+    outline: none;
+}
+.input-location .search button{
+    height:2rem;
+    width:7rem;
+    background-color: rgb(250, 155, 12);
+    border:none;
+    border-radius:5px;
+    color:white;
+    cursor: pointer;
+    transition: 0.4s;
+    outline: none;
+}
+.input-location .search button:hover{
+    border:1px solid  rgb(250, 155, 12);
+    background-color: white;
+    color: rgb(250, 155, 12);
+}
+.input-location button{
+    height:2rem;
+    width:7rem;
+    background-color: rgb(250, 155, 12);
+    border:none;
+    border-radius:5px;
+    color:white;
+    cursor: pointer;
+    transition: 0.4s;
+    outline: none;
+}
+.input-location button:hover{
+    border:1px solid  rgb(250, 155, 12);
+    background-color: white;
+    color: rgb(250, 155, 12);
+}
+
+/****************** LOCATIONS *******************************/
+.locations-container{
+    margin-top:1rem; 
+    background-color: rgb(235, 235, 235);
+}
