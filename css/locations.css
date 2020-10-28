@@ -1,0 +1,47 @@
+.locations{
+    display: flex;  
+    flex-direction: column;
+}
+
+.location {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #f58a25;
+    padding: 20px;
+}
+
+.locationContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    width: 260px;
+    height: auto;
+}
+
+span.item {
+    background: #fff9f8;
+    margin: 4px 0;
+    padding: 7px;
+}
+
+button.deleteLocation {
+    padding: 10px;
+    font-size: 22px;
+    color: #811411;
+    border-radius: 5px;
+    outline: none;
+    border: 2px solid #000;
+    cursor: pointer;
+}
+
+button.deleteLocation:hover {
+    color: #ea4335;
+}
+
+@media only screen and (min-width: 72px) {
+    .locations{
+        display: flex;  
+        flex-direction: row;
+    }
+}
+
