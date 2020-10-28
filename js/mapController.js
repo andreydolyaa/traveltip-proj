@@ -1,11 +1,76 @@
 import { mapService } from '/js/mapService.js'
 import { makeID } from '/js/util-service.js'
-
+import { storage } from '/js/storage-service.js'
 
 console.log('Main!');
 var gMap;
-var gLocations =[]
+var gLocations = [];
 var DATA_KEY_LOCATIONS ='dbLocations' 
+
+
+function renderLocations(){
+    var locations = storage.loadFromStorage(DATA_KEY_LOCATIONS)
+    var el = document.querySelector('.locations')
+    console.log('render gLocations' ,locations)
+    if (!locations || !locations.length) {  
+        //console.log('no locations' ,gCurrTheme)     
+        el.innerHTML = 'no locations'
+        return
+        
+    }
+
+    gLocations = locations;
+    console.log('render gLocations',gLocations)  
+    var strHTML = gLocations.map((locationItem,index, array) => {        
+       return `<div class="locationContainer"><div class="location" data-locid="${index}">
+       <span class="colorIcon"></span>
+       ${locationItem.lat}
+       ${locationItem.lng}
+       </div></div>`;
+      }); 
+    //console.log('strHTML' ,strHTML);
+    el.innerHTML = strHTML.join('');
+    
+}
+
+function addEventToMylocation(){
+    var el = document.querySelectorAll('.my-location');
+    console.log(elsLocation)
+
+    el.addEventListener("click", event => {
+        mylocation(event)
+    });
+
+}
+
+function mylocation(ev){
+    console.log(ev)
+    getUserPosition();
+}
+
+function addEventToLocations(){
+    var elsLocation = document.querySelectorAll('.location');
+    console.log(elsLocation)
+    elsLocation.forEach(elLocation =>{
+        elLocation.addEventListener("click", event => {
+            selectLocation(event)
+        });
+    });
+}
+
+
+function selectLocation(event){
+    console.log(event,gLocations ,gLocations[0], gLocations[0].lat , gLocations[0].lng)
+    var index = Number(event.target.dataset.locid)
+    console.log(typeof index ,index)
+
+    var pos = {
+      lat:gLocations[index].lat,
+      lng:gLocations[index].lng,
+    }
+    console.log(pos)
+    gMap.setCenter(pos);
+}
 
 mapService.getLocs()
     .then(locs => console.log('locs', locs))
@@ -27,6 +92,12 @@ window.onload = () => {
         .catch(err => {
             console.log('err!!!', err);
         })
+
+
+
+    renderLocations()
+    addEventToLocations()
+    addEventToMylocation()
 }
 
 function addMapEventOnClick(){
@@ -42,29 +113,39 @@ function placeMarker(mapsMouseEvent) {
     console.log('place marker' ,posCoords)
      var lat = posCoords.lat;
      var lng = posCoords.lng;
-     var id  = makeID.makeId(4);
-     console.log('place marker' ,lat,lng ,id, )
+
+     console.log('place marker' ,lat,lng )
      var marker = new google.maps.Marker({
-            position: { lat, lng },
+            position: { lat:lat, lng:lng },
             map: gMap,
+         });
+         //console.log(marker)   
+     marker.addListener("click", markerClick);
+
+     var id  = makeID.makeId(4);
+     var createMarker = _createMarker(lat,lng,id)
+     //console.log(' marker' ,marker)
+     gLocations.push(createMarker)
+     console.log('gLocations' , gLocations)  
+     saveLocations()
+     renderLocations();
+}
+
+function _createMarker(lat,lng,id){
+        var marker ={
+            lat:lat,
+            lng:lng,
             id:id,
             name:'name',
             weather:'weather',
             createdAt:'createdAt',
             updatedAt:'updatedAt',
-         });
-         //console.log(marker)   
-     marker.addListener("click", markerClick);
-     //console.log(' marker' ,marker)
-     //gLocations.push(marker)
-     //createLocation(marker,lat,lng)
-     //saveLocations()
+        }
+        return marker;
 }
 
-
-
 function markerClick(event){
-    console.log(event)
+    console.log('markerClick',event)
     //var posCoords = event.latLng.toJSON()
     //console.log(posCoords)
     //// var location = []   
@@ -74,8 +155,6 @@ document.querySelector('.btn').addEventListener('click', (ev) => {
     console.log('Aha!', ev.target);
     panTo(35.6895, 139.6917);
 })
-
-
 
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap');
@@ -105,15 +184,13 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng);
 }
 
-function getPosition() {
+function getMyPosition() {
     console.log('Getting Pos');
 
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
-
-
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
@@ -129,8 +206,39 @@ function _connectGoogleApi() {
     })
 }
 
+
+
+// show user position
+function getUserPosition() {
+    if (!navigator.geolocation) return alert("HTML5 Geolocation is not supported in your browser.");
+
+    // One shot position getting or continus watch
+    navigator.geolocation.getCurrentPosition(showLocation, handleLocationError);
+    // navigator.geolocation.watchPosition(showLocation, handleLocationError);
+}
+
+function handleLocationError(error) {
+    var locationError = document.getElementById("locationError");
+
+    switch (error.code) {
+        case 0:
+            locationError.innerHTML = "There was an error while retrieving your location: " + error.message;
+            break;
+        case 1:
+            locationError.innerHTML = "The user didn't allow this page to retrieve a location.";
+            break;
+        case 2:
+            locationError.innerHTML = "The browser was unable to determine your location: " + error.message;
+            break;
+        case 3:
+            locationError.innerHTML = "The browser timed out before retrieving the location.";
+            break;
+    }
+}
+
+
 function saveLocations(){
-    saveToStorage(DATA_KEY_LOCATIONS, gLocations);
+    storage.saveToStorage(DATA_KEY_LOCATIONS, gLocations);
 }
 
 
