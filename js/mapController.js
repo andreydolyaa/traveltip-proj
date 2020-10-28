@@ -57,7 +57,7 @@ document.querySelector('.btn').addEventListener('click', (ev) => {
     console.log(navigator)
 
 })
-
+//fixed
 export function showLocationFromInput(res){
     console.log('event showLocation', res); 
     //console.log(event.coords.latitude); 
