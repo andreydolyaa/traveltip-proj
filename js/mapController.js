@@ -2,7 +2,7 @@ import { mapService } from '/js/mapService.js'
 import { UTIL } from '/js/util-service.js'
 import { storage } from '/js/storage-service.js'
 import {weatherService} from '/js/weather-service.js';
-
+   
 export const mapControler = {showLocationFromInput}
 
 
@@ -100,18 +100,21 @@ function placeMarkerMyLocation(mylat, mylng) {
          //console.log(marker)   
      marker.addListener("click", markerClick);
      
-     var id  = UTIL.makeId(4);
-     //var markerDetails = 
-    
-        //console.log('markerDetails User position is:',  markerDetails);  
-     var createMarker = _createMarker(lat,lng,id,marker)
-     
-     //console.log(' marker' ,marker)
-     if (!gLocations || !gLocations.length) gLocations = [];
-     gLocations.push(createMarker)
-     console.log(gLocations);
-     saveLocations()
-     renderLocations();
+     var createMarker;
+     weatherService.loadCoords(lat, lng).then(res => {
+        var id  = UTIL.makeId(4);
+        var name = res.name + res.sys.country;
+        var weather = res.weather
+        //console.log(' marker' ,country ,name, weather)
+        createMarker = _createMarker(lat,lng,id,name,weather)
+        console.log('res',res)
+        console.log('createMarker',createMarker)
+        if (!gLocations || !gLocations.length) gLocations = []
+        gLocations.push(createMarker)
+        console.log('gLocations' , gLocations)
+        saveLocations()
+        renderLocations();
+    })  
 }
 
 function addEventToLocations(){
