@@ -109,7 +109,7 @@ function placeMarkerMyLocation(mylat, mylng) {
      //console.log(' marker' ,marker)
      if (!gLocations || !gLocations.length) gLocations = [];
      gLocations.push(createMarker)
-  
+     console.log(gLocations);
      saveLocations()
      renderLocations();
 }
@@ -154,6 +154,7 @@ function deleteLocation(event){
     //console.log(typeof index ,index)
 
     gLocations.splice(index,1);
+
     saveLocations();   
     renderLocations();
     //console.log(pos)
@@ -220,6 +221,7 @@ function placeMarker(mapsMouseEvent) {
         console.log('createMarker',createMarker)
         if (!gLocations || !gLocations.length) gLocations = []
         gLocations.push(createMarker)
+        console.log(gLocations);
         console.log('gLocations' , gLocations)
         saveLocations()
         renderLocations();
