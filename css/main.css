@@ -8,7 +8,6 @@
     max-width: 1200px;
 }
 .container{
-
     display:flex;
     flex-direction: column;
     margin:auto;
@@ -20,7 +19,11 @@ header{
     align-items: center;
     height:60px;
     padding:1rem;
+    padding-left:0;
     margin:auto;
+}
+header h1 span {
+    color:rgb(250, 155, 12) ;
 }
 /************************** WEATHER CONTAINER **********************/
 .weather-container{
@@ -124,4 +127,33 @@ header{
 .locations-container{
     margin-top:1rem; 
     background-color: rgb(235, 235, 235);
+}
+
+@media(max-width:1201px){
+    .map-weather{
+        flex-direction: column;
+    }
+    header nav{
+        margin:auto;
+    }
+}
+
+@media (max-width:580px){
+    .input-location{
+        display:block;
+        margin:auto;
+    }
+    .input-location .search{
+        display:flex;
+        flex-direction: column;
+    }
+    .input-location .search button{
+        width:250px;
+        margin-top:.6rem;
+    }
+    .myloc-btn button{
+        width:250px;
+        margin-top: .6rem;
+        padding:0;
+    }
 }
